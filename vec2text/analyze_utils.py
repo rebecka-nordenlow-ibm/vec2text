@@ -12,10 +12,10 @@ import transformers
 from transformers import HfArgumentParser
 from transformers.trainer_utils import get_last_checkpoint
 
-from vec2text import experiments
+from vec2text.vec2text import experiments
 from vec2text.models.config import InversionConfig
 from vec2text.run_args import DataArguments, ModelArguments, TrainingArguments
-from vec2text import run_args as run_args
+from vec2text.vec2text import run_args as run_args
 
 device = torch.device(
     "cuda"
@@ -193,6 +193,7 @@ def load_experiment_and_trainer_from_pretrained(name: str, use_less_data: int = 
 
     experiment = experiments.experiment_from_args(model_args, data_args, training_args)
     trainer = experiment.load_trainer()
+    print("finished experiment.load_trainer()")
     trainer.model = trainer.model.__class__.from_pretrained(name)
     trainer.model.to(training_args.device)
     return experiment, trainer

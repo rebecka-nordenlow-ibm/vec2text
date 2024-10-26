@@ -628,11 +628,12 @@ class InversionExperiment(Experiment):
 
     def load_trainer(self) -> transformers.Trainer:
         model = self.load_model()
-        train_dataset, eval_dataset = self.load_train_and_val_datasets(
-            model=model,
-            tokenizer=model.tokenizer,
-            embedder_tokenizer=model.embedder_tokenizer,
-        )
+        print("don't load dses")
+        #train_dataset, eval_dataset = self.load_train_and_val_datasets(
+        #    model=model,
+        #    tokenizer=model.tokenizer,
+        #    embedder_tokenizer=model.embedder_tokenizer,
+        #)
         n_params = sum({p.data_ptr(): p.numel() for p in model.parameters()}.values())
         logger.info(
             f"Training model with name `{self.model_args.model_name_or_path}` - Total size={n_params/2**20:.2f}M params"
@@ -655,8 +656,8 @@ class InversionExperiment(Experiment):
         return self.trainer_cls(
             model=model,
             args=self.training_args,
-            train_dataset=train_dataset,
-            eval_dataset=eval_dataset,
+            #train_dataset=train_dataset,
+            #eval_dataset=eval_dataset,
             data_collator=self.get_collator(tokenizer=model.tokenizer),
         )
 
